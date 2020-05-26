@@ -10,6 +10,7 @@
 
 (require 'polymode)
 (require 'agda2-mode)
+(require 'markdown-mode)
 
 (defgroup markdown-agda-mode nil
   "markdown-agda-mode customisations"
@@ -24,7 +25,7 @@
   :mode 'markdown-mode
   :keep-in-mode 'host)
 
-(define-innermode poly-org-agda-innermode
+(define-innermode poly-markdown-agda-innermode
   :mode 'agda2-mode
   :head-matcher "```agda"
   :tail-matcher "```"
@@ -36,7 +37,7 @@
   :init-functions '((lambda (_) (font-lock-mode 0))
                     (lambda (_) (setq indent-line-function #'indent-relative))))
 
-(define-polymode org-agda-mode
+(define-polymode markdown-agda-mode
   :hostmode 'poly-markdown-agda-hostmode
   :innermodes '(poly-markdown-agda-innermode)
   (when use-agda-input (set-input-method "Agda")))
@@ -44,7 +45,7 @@
 (assq-delete-all 'background agda2-highlight-faces)
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.lagda.md" . markdown-agda-mode))
+(add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . markdown-agda-mode))
 
 (provide 'org-agda-mode)
 ;;; markdown-agda-mode ends here
