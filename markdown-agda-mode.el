@@ -23,6 +23,8 @@
 
 (define-hostmode poly-markdown-agda-hostmode
   :mode 'markdown-mode
+  :protect-font-lock t
+  :protect-syntax t
   :keep-in-mode 'host)
 
 (define-innermode poly-markdown-agda-innermode
@@ -34,7 +36,10 @@
   :tail-mode 'markdown-mode
   ;; Disable font-lock-mode, which interferes with Agda annotations,
   ;; and undo the change to indent-line-function Polymode makes.
-  :init-functions '((lambda (_) (font-lock-mode 0))
+  :init-functions '((lambda (_) (let ((span (pm-innermost-range))
+				      (beg (car span))
+				      (end (cdr span)))
+				  (remove-text-properties beg end '(face nil))))
                     (lambda (_) (setq indent-line-function #'indent-relative))))
 
 (define-polymode markdown-agda-mode
